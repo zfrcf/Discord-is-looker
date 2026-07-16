@@ -1,6 +1,5 @@
 // script.js - Version fixe avec vraie API
-const API_URL = "http://localhost:3000/api/lookup"; // Change en ton URL si hébergé
-
+const API_URL = "https://discord-id-looker.vercel.app/api/lookup";
 async function performSearch() {
     const idInput = document.getElementById('idInput').value.trim();
     if (!idInput) return alert("Entre un ID Discord valide");
