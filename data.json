@@ -1,0 +1,10 @@
+{
+  "tool": "Discord OSINT Ultimate",
+  "version": "∞",
+  "features": ["particules", "recherche rapide", "multi themes", "export json"],
+  "exampleUser": {
+    "id": "123456789012345678",
+    "username": "ExempleTarget",
+    "created": "2021-05-15"
+  }
+}
