@@ -1,0 +1,29 @@
+body {
+    margin: 0;
+    background: linear-gradient(135deg, #1e0528, #0a1428);
+    color: white;
+    font-family: system-ui;
+}
+
+.neon-text {
+    animation: neon 1.5s infinite alternate;
+}
+
+@keyframes neon {
+    from { text-shadow: 0 0 10px #c026d3; }
+    to { text-shadow: 0 0 40px #67e8f9; }
+}
+
+.nav-btn {
+    padding: 12px 24px;
+    transition: all 0.3s;
+}
+
+.nav-btn:hover {
+    color: #67e8f9;
+    transform: scale(1.1);
+}
+
+.tab {
+    min-height: 80vh;
+}
