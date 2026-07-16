@@ -1,71 +1,33 @@
-const canvas = document.getElementById('canvas');
-const ctx = canvas.getContext('2d');
-let particles = [];
-
-function resize() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-}
-window.addEventListener('resize', resize);
-resize();
-
-class Particle {
-    constructor(x, y) {
-        this.x = x || Math.random() * canvas.width;
-        this.y = y || Math.random() * canvas.height;
-        this.size = Math.random() * 6 + 2;
-        this.speedX = Math.random() * 4 - 2;
-        this.speedY = Math.random() * 4 - 2;
-        this.hue = Math.random() * 360;
-    }
-    update() {
-        this.x += this.speedX;
-        this.y += this.speedY;
-        this.size *= 0.97;
-    }
-    draw() {
-        ctx.fillStyle = `hsl(${this.hue}, 100%, 70%)`;
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fill();
-    }
-}
-
-function animate() {
-    ctx.fillStyle = 'rgba(10, 20, 40, 0.15)';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    for (let i = 0; i < particles.length; i++) {
-        particles[i].update();
-        particles[i].draw();
-        if (particles[i].size < 0.5) {
-            particles.splice(i, 1);
-            i--;
-        }
-    }
-    requestAnimationFrame(animate);
-}
-animate();
-
-document.addEventListener('mousemove', e => {
-    for (let i = 0; i < 12; i++) {
-        const p = new Particle(e.clientX, e.clientY);
-        particles.push(p);
-    }
-});
-
-function nav(n) {
-    document.querySelectorAll('.tab').forEach(t => t.classList.add('hidden'));
-    document.getElementById('tab' + n).classList.remove('hidden');
-}
+// script.js - Version fixe avec vraie API
+const API_URL = "http://localhost:3000/api/lookup"; // Change en ton URL si hébergé
 
 async function performSearch() {
-    const id = document.getElementById('idInput').value || "123456789";
+    const idInput = document.getElementById('idInput').value.trim();
+    if (!idInput) return alert("Entre un ID Discord valide");
+    
     const area = document.getElementById('resultArea');
-    area.innerHTML = `<p class="text-cyan-400">Recherche en cours sur ID : ${id}...</p>`;
-    setTimeout(() => {
-        area.innerHTML = `<pre class="bg-black/80 p-8 text-sm">{\n  "id": "${id}",\n  "username": "TargetUser",\n  "avatar": "https://cdn.discordapp.com/..."\n}</pre>`;
-    }, 400);
-}
+    area.innerHTML = `<p class="text-cyan-400">Recherche réelle en cours sur ID : ${idInput}...</p>`;
 
-// Init
-nav(0);
+    try {
+        const response = await fetch(API_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ userId: idInput })
+        });
+        
+        const data = await response.json();
+        
+        if (data.error) throw new Error(data.error);
+        
+        area.innerHTML = `
+            <div class="bg-zinc-900 p-8 rounded-3xl">
+                <h3 class="text-2xl mb-4">${data.username || 'Utilisateur'}</h3>
+                <p>ID : ${data.id}</p>
+                ${data.avatar ? `<img src="https://cdn.discordapp.com/avatars/${data.id}/${data.avatar}.png?size=256" class="w-32 h-32 rounded-full mt-4">` : ''}
+                <pre class="mt-6 text-sm bg-black p-4 overflow-auto">${JSON.stringify(data, null, 2)}</pre>
+            </div>
+        `;
+    } catch (err) {
+        area.innerHTML = `<p class="text-red-400">Erreur : ${err.message}. Vérifie ton token dans server.js et que le serveur tourne.</p>`;
+    }
+}
