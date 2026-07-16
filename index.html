@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discord OSINT Ultimate v∞</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <canvas id="canvas" class="fixed top-0 left-0 z-[-1]"></canvas>
+    
+    <nav class="bg-black/90 backdrop-blur p-6 flex justify-between sticky top-0 z-50 border-b border-purple-500">
+        <h1 class="text-5xl font-bold neon-text">OSINT<span class="text-cyan-400">DISCORD</span></h1>
+        <div class="flex gap-8">
+            <button onclick="nav(0)" class="nav-btn">Accueil</button>
+            <button onclick="nav(1)" class="nav-btn">Searcher</button>
+            <button onclick="nav(2)" class="nav-btn">Infos</button>
+            <button onclick="nav(3)" class="nav-btn">À Propos</button>
+        </div>
+    </nav>
+
+    <div id="tab0" class="tab p-20 text-center">
+        <h2 class="text-8xl font-bold neon-text mb-10">L'ULTIME OSINT DISCORD</h2>
+        <p class="text-4xl text-purple-400">Particules dynamiques • Recherche instantanée</p>
+    </div>
+
+    <div id="tab1" class="tab hidden p-12 max-w-4xl mx-auto">
+        <input id="idInput" class="w-full p-8 bg-zinc-900 text-2xl rounded-3xl border border-purple-600 focus:border-cyan-400" placeholder="ID Discord">
+        <button onclick="performSearch()" class="mt-8 w-full py-8 text-4xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 rounded-3xl">OSINT NOW</button>
+        <div id="resultArea" class="mt-12"></div>
+    </div>
+
+    <div id="tab2" class="tab hidden p-12">Informations détaillées sur les techniques OSINT Discord...</div>
+    <div id="tab3" class="tab hidden p-12 text-center">Outil créé pour la recherche ultime. Tout inclus.</div>
+
+    <script src="script.js"></script>
+</body>
+</html>
